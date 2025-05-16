@@ -15,6 +15,6 @@ class PokemonListViewModel @Inject constructor(
     val pokemonList: StateFlow<List<String>> = _pokemonList
 
     init {
-        _pokemonList.value = listOf("Bulbasaur", "Charmander", "Squirtle")
+        _pokemonList.value = listOf("Bulbasaur", "Charmander", "Squirtle", "Pikachu")
     }
 }
