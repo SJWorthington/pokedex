@@ -25,8 +25,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AnotherPokedexTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { _ ->
-                    PokemonList()
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    PokemonList(Modifier.padding(paddingValues = innerPadding))
                 }
             }
         }
@@ -37,6 +37,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     AnotherPokedexTheme {
-        PokemonList()
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            PokemonList(Modifier.padding(paddingValues = innerPadding))
+        }
     }
 }
