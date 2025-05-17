@@ -68,9 +68,13 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
-    //Coroutines and that
+    //Coroutines and whatnot
     implementation(libs.kotlin.stdlib)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.lifecycle.viewmodel.ktx)
+
+    //Coil image loading
+    implementation(libs.coil3.compose)
+    implementation(libs.coil3.network.okhttp)
 }
