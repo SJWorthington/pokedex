@@ -12,47 +12,48 @@ class PokemonListViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val _pokemonList = MutableStateFlow<List<PokeyMan>>(emptyList())
-    val pokemonList: StateFlow<List<PokeyMan>> = _pokemonList
+    private val _pokemonList = MutableStateFlow<List<PokemonUiModel>>(emptyList())
+    val pokemonList: StateFlow<List<PokemonUiModel>> = _pokemonList
 
     init {
         _pokemonList.value = listOf(
-            PokeyMan(
+            PokemonUiModel(
                 "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png",
                 "#0001",
                 "Bulbasaur",
-                PokeyManTypePairing(Type.Grass, Type.Fairy),
+                PokemonTypePairing(Type.Grass, Type.Fairy),
             ),
-            PokeyMan(
+            PokemonUiModel(
                 "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png",
                 "#0004",
                 "Squirtle",
-                PokeyManTypePairing(Type.Water, Type.Flying),
+                PokemonTypePairing(Type.Water, Type.Flying),
             ),
-            PokeyMan(
+            PokemonUiModel(
                 "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png",
                 "#0007",
                 "Charmander",
-                PokeyManTypePairing(Type.Fire, Type.Dragon),
+                PokemonTypePairing(Type.Fire, Type.Dragon),
             ),
-            PokeyMan(
+            PokemonUiModel(
                 "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png",
                 "#0025",
                 "Pikachu",
-                PokeyManTypePairing(Type.Electric, null),
+                PokemonTypePairing(Type.Electric, null),
             )
         )
     }
 }
 
-data class PokeyMan(
+data class PokemonUiModel(
     val imageUri: String,
     val readableNumber: String,
     val name: String,
-    val types: PokeyManTypePairing
+    val types: PokemonTypePairing
 )
 
-data class PokeyManTypePairing(
+//TODO - move this to data package
+data class PokemonTypePairing(
     val first: Type,
     val second: Type?
 )

@@ -54,7 +54,7 @@ fun PokemonList(
 
 @Composable
 fun PokemonListItem(
-    pokemon: PokeyMan,
+    pokemon: PokemonUiModel,
     modifier: Modifier = Modifier
 ) {
     val borderBrush = remember(pokemon.types) {
@@ -119,7 +119,7 @@ fun PokemonListItem(
 
 @Composable
 fun PokemonGridItem(
-    pokemon: PokeyMan,
+    pokemon: PokemonUiModel,
     modifier: Modifier = Modifier
 ) {
     val borderBrush = remember(pokemon.types) {
