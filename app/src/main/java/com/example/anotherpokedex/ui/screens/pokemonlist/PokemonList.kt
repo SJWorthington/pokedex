@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -32,8 +30,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
-import com.example.anotherpokedex.ui.screens.pokemonlist.composables.PokemonListTypePill
-import com.example.anotherpokedex.ui.screens.pokemonlist.composables.getTypeColor
+import com.example.anotherpokedex.ui.generalcomposables.PokemonListTypePill
+import com.example.anotherpokedex.ui.screens.pokemonlist.models.PokemonUiModel
+import com.example.anotherpokedex.ui.utils.getTypeColor
 
 @Composable
 fun PokemonList(
@@ -58,10 +57,10 @@ fun PokemonGridItem(
     modifier: Modifier = Modifier
 ) {
     val borderBrush = remember(pokemon.types) {
-        val colors = when (val second = pokemon.types.second) {
-            null -> List(2) { getTypeColor(pokemon.types.first) }
-            else -> listOf(getTypeColor(pokemon.types.first), getTypeColor(second))
-        }
+        val colors = listOf(
+            pokemon.types.first.getTypeColor(),
+            pokemon.types.second?.getTypeColor() ?: pokemon.types.first.getTypeColor()
+        )
         Brush.verticalGradient(colors)
     }
 

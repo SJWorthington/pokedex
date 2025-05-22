@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     kotlin("kapt")
+    alias(libs.plugins.ksp)
+    kotlin("plugin.serialization") version libs.versions.kotlin.get()
 }
 
 hilt {
@@ -77,4 +79,13 @@ dependencies {
     //Coil image loading
     implementation(libs.coil3.compose)
     implementation(libs.coil3.network.okhttp)
+
+    //Ktor
+    implementation(libs.ktor.core)
+    implementation(libs.ktor.okhttp)
+    implementation(libs.ktor.content.negotiation)
+    implementation(libs.ktor.serialization.json)
+
+    //Json serialization
+    implementation(libs.kotlinx.serialization.json)
 }
