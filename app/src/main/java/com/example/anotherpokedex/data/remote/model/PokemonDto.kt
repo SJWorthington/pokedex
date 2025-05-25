@@ -8,7 +8,7 @@ data class PokemonDto(
     val id: Int,
     val name: String,
     val types: List<TypeSlot>,
-    @SerialName("sprites") val sprites: Sprites
+    val sprites: Sprites
 )
 
 @Serializable
