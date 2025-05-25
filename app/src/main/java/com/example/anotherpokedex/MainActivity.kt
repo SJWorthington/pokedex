@@ -34,7 +34,10 @@ class MainActivity : ComponentActivity() {
 fun GreetingPreview() {
     AnotherPokedexTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            PokemonList(Modifier.padding(paddingValues = innerPadding))
+            PokemonList(
+                modifier = Modifier.padding(paddingValues = innerPadding),
+                navigateToPokemonDetails = {}
+            )
         }
     }
 }

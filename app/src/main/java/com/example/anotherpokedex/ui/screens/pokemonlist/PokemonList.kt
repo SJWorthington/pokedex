@@ -20,6 +20,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,30 +32,45 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.example.anotherpokedex.ui.generalcomposables.PokemonListTypePill
+import com.example.anotherpokedex.ui.screens.pokemonlist.PokemonListViewModel.NavigationEvent.ToPokemonDetail
 import com.example.anotherpokedex.ui.screens.pokemonlist.models.PokemonUiModel
 import com.example.anotherpokedex.ui.utils.getTypeColor
 
 @Composable
 fun PokemonList(
     modifier: Modifier,
+    navigateToPokemonDetails: (Int) -> Unit,
     viewModel: PokemonListViewModel = hiltViewModel()
 ) {
-    val pokemonList = viewModel.pokemonList.collectAsState()
+    val state = viewModel.state.collectAsState()
+    val interactions = viewModel.interactions
+
+    LaunchedEffect(Unit) {
+        viewModel.navigationEvents.collect { event ->
+            when {
+                event is ToPokemonDetail -> navigateToPokemonDetails(event.id)
+            }
+        }
+    }
 
     LazyVerticalGrid(
         modifier = modifier,
         columns = GridCells.Fixed(2)
     ) {
-        items(pokemonList.value) {
-            PokemonGridItem(it)
+        items(state.value.pokemon) { pokemon ->
+            PokemonGridItem(
+                pokemon = pokemon,
+                onClick = { interactions.onClickPokemon(pokemon.id) }
+            )
         }
     }
 }
 
 @Composable
 fun PokemonGridItem(
+    modifier: Modifier = Modifier,
     pokemon: PokemonUiModel,
-    modifier: Modifier = Modifier
+    onClick: (Int) -> Unit
 ) {
     val borderBrush = remember(pokemon.types) {
         val colors = listOf(
@@ -72,6 +88,7 @@ fun PokemonGridItem(
     ) {
         Card(
             modifier = Modifier.fillMaxWidth(),
+            onClick = { onClick(pokemon.id) },
             shape = RoundedCornerShape(14.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
