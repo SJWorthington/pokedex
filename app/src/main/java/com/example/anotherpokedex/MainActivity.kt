@@ -10,6 +10,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.example.anotherpokedex.ui.navigation.AppNavGraph
 import com.example.anotherpokedex.ui.screens.pokemonlist.PokemonList
 import com.example.anotherpokedex.ui.theme.AnotherPokedexTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,8 +23,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AnotherPokedexTheme {
+                val navController = rememberNavController()
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    PokemonList(Modifier.padding(paddingValues = innerPadding))
+                    AppNavGraph(
+                        navController = navController,
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
             }
         }

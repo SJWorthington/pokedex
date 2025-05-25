@@ -18,8 +18,8 @@ class PokemonListViewModel @Inject constructor(
     private val getPokemonListUseCase: GetPokemonListUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(PokemonListState())
-    val state: StateFlow<PokemonListState> = _state
+    private val _state = MutableStateFlow(State())
+    val state: StateFlow<State> = _state
 
     private val _navigationEvents = MutableSharedFlow<NavigationEvent>()
     val navigationEvents: SharedFlow<NavigationEvent> = _navigationEvents
@@ -69,7 +69,7 @@ class PokemonListViewModel @Inject constructor(
         }
     }
 
-    data class PokemonListState(
+    data class State(
         val isLoading: Boolean = false,
         val pokemon: List<PokemonUiModel> = emptyList(),
         val errorMessage: String? = null
