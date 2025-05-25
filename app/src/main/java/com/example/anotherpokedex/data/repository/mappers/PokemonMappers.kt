@@ -13,7 +13,7 @@ fun PokemonDto.toDomain(): Pokemon {
     val secondType = sortedTypes.getOrNull(1)?.toDomainType()
 
     return Pokemon(
-        number = id,
+        dexNumber = id,
         name = name.replaceFirstChar { it.uppercase() },
         imageUrl = sprites.frontDefault ?: "",
         types = PokemonTypePairing(
