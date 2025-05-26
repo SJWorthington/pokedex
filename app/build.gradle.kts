@@ -88,4 +88,8 @@ dependencies {
 
     //Json serialization
     implementation(libs.kotlinx.serialization.json)
+
+    //Paging
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
 }

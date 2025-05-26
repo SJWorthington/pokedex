@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +33,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import coil3.compose.AsyncImage
 import com.example.anotherpokedex.domain.model.Type
 import com.example.anotherpokedex.ui.screens.pokemonlist.models.PokemonUiModel
@@ -149,4 +151,33 @@ fun PokemonGlowOverlay(modifier: Modifier = Modifier) {
             shape = RoundedCornerShape(16.dp)
         )
     )
+}
+
+@Composable
+fun PokemonListLoadStateItem(
+    loadState: LoadState,
+    errorPrefix: String = "Something went wrong"
+) {
+    when (loadState) {
+        is LoadState.Loading -> {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+
+        is LoadState.Error -> {
+            Text(
+                text = "$errorPrefix: ${loadState.error.localizedMessage}",
+                color = Color.Red,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+
+        else -> Unit
+    }
 }
