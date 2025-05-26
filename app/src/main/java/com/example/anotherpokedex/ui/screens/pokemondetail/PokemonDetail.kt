@@ -21,6 +21,6 @@ fun PokemonDetail(
         modifier = modifier.then(Modifier.fillMaxSize()),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Pokemon Id is ${state.value.pokemonId}")
+        Text(text = "Pokemon name is ${state.value.pokemonName}")
     }
 }

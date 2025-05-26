@@ -2,6 +2,7 @@ package com.example.anotherpokedex.data.remote
 
 import com.example.anotherpokedex.data.remote.model.PokemonDto
 import com.example.anotherpokedex.data.remote.model.PokemonListResponse
+import com.example.anotherpokedex.data.remote.model.PokemonSpeciesDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -22,5 +23,9 @@ class PokeApiService(
     //TODO - probably a better way to construct this URL
     suspend fun getPokemonDetails(name: String) : PokemonDto {
         return client.get("${baseUrl}pokemon/$name").body()
+    }
+
+    suspend fun getPokemonSpeciesDetails(name: String) : PokemonSpeciesDto {
+        return client.get("${baseUrl}pokemon-species/$name").body()
     }
 }

@@ -22,15 +22,15 @@ fun AppNavGraph(
         composable("pokemon_list") {
             PokemonList(
                 modifier = modifier,
-                navigateToPokemonDetails = { id ->
-                    navController.navigate("pokemon_detail/$id")
+                navigateToPokemonDetails = { name ->
+                    navController.navigate("pokemon_detail/$name")
                 }
             )
         }
         composable(
-            route = "pokemon_detail/{pokemonId}",
+            route = "pokemon_detail/{pokemonName}",
             arguments = listOf(
-                navArgument("pokemonId") { type = NavType.IntType }
+                navArgument("pokemonName") { type = NavType.StringType }
             )
         ) {
             PokemonDetail(modifier = modifier)

@@ -15,7 +15,7 @@ class PokemonDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val pokemonId = savedStateHandle.get<Int>("pokemonId")
+    val pokemonName = savedStateHandle.get<String>("pokemonName")
 
     private val _state = MutableStateFlow(State())
     val state: StateFlow<State> = _state
@@ -24,7 +24,7 @@ class PokemonDetailViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update {
                 it.copy(
-                    pokemonId = pokemonId ?: -1
+                    pokemonName = pokemonName ?: "Keith"
                 )
             }
         }
@@ -32,7 +32,7 @@ class PokemonDetailViewModel @Inject constructor(
 
     data class State(
         val isLoading: Boolean = false,
-        val pokemonId: Int = -1,
+        val pokemonName: String = "",
         val errorMessage: String? = null
     )
 }
