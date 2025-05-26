@@ -47,9 +47,10 @@ fun PokemonList(
             items(
                 count = pokemonList.itemCount,
                 key = { index ->
-                    //Seems unnecessary since dexNumber should always == index
-                    // But was seeing some jank, so testing this as solution
-                    pokemonList[index]?.id ?: index
+                    // Think this is actually the default, but it fixed a bug I accidentally introduced
+                    // by using the dexNumber as the index (Pokemon index from 1),
+                    // so letting this live for future reference
+                    index
                 }
             ) { index ->
                 pokemonList[index]?.let { pokemon ->

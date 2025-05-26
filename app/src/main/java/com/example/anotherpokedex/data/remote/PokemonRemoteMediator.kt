@@ -1,6 +1,5 @@
 package com.example.anotherpokedex.data.remote
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -22,13 +21,16 @@ class PokemonRemoteMediator @Inject constructor(
         state: PagingState<Int, PokemonEntity>
     ): MediatorResult {
         return try {
-            Log.d("Plantain", "LoadType = ${loadType.name}")
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> 0
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
-                    lastItem?.nationalDexNumber ?: 0
+                    val lastItemIndex = state.pages
+                        .flatMap { it.data }
+                        .indexOfLast { it == lastItem }
+
+                    if (lastItemIndex == -1) 0 else lastItemIndex + 1
                 }
             }
 

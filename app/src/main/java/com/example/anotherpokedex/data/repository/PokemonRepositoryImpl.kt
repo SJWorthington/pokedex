@@ -22,17 +22,6 @@ class PokemonRepositoryImpl @Inject constructor(
     private val db: PokemonDatabase,
 ) : PokemonRepository {
 
-    // TODO - delete if remoteMediator works
-//    override fun getPokemonList(): Flow<PagingData<Pokemon>> {
-//        return Pager(
-//            config = PagingConfig(
-//                pageSize = 20,
-//                enablePlaceholders = false
-//            ),
-//            pagingSourceFactory = { PokemonListPagingSource(apiService) }
-//        ).flow
-//    }
-
     override fun getPagedPokemonList(): Flow<PagingData<Pokemon>> {
         val pagingSourceFactory = { db.pokemonDao().getPagedPokemon() }
 
