@@ -4,6 +4,7 @@ data class Pokemon(
     val dexNumber: Int,
     val name: String,
     val imageUrl: String,
+    val shinyImageUrl: String,
     val types: PokemonTypePairing
 )
 

@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class PokemonListViewModel @Inject constructor(
@@ -24,7 +25,7 @@ class PokemonListViewModel @Inject constructor(
     private val _navigationEvents = MutableSharedFlow<NavigationEvent>()
     val navigationEvents: SharedFlow<NavigationEvent> = _navigationEvents
 
-    val interactions = Interactions (
+    val interactions = Interactions(
         onClickPokemon = { id -> onClickPokemon(id) }
     )
 
@@ -37,12 +38,15 @@ class PokemonListViewModel @Inject constructor(
             _state.update { it.copy(isLoading = true) }
             try {
                 val pokemon = getPokemonListUseCase.invoke().map {
+                    val useShiny = Random.nextInt(10) == 0
+
                     PokemonUiModel(
                         it.dexNumber,
-                        it.imageUrl,
+                        if (useShiny) it.shinyImageUrl else it.imageUrl,
                         it.dexNumber.toString(),
                         it.name,
                         it.types,
+                        useShiny
                     )
                 }
                 _state.update {
@@ -75,7 +79,7 @@ class PokemonListViewModel @Inject constructor(
         val errorMessage: String? = null
     )
 
-    data class Interactions (
+    data class Interactions(
         val onClickPokemon: (Int) -> Unit
     )
 

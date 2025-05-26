@@ -20,5 +20,20 @@ data class TypeSlot(
 @Serializable
 data class Sprites(
     @SerialName("front_default") val frontDefault: String?,
-    @SerialName("back_default") val backDefault: String?
+    @SerialName("front_shiny") val frontShiny: String?,
+    val other: OtherSprites? = null
+)
+
+@Serializable
+data class OtherSprites(
+    @SerialName("official-artwork")
+    val officialArtwork: OfficialArtwork? = null
+)
+
+@Serializable
+data class OfficialArtwork(
+    @SerialName("front_default")
+    val frontDefault: String?,
+    @SerialName("front_shiny")
+    val frontShiny: String?
 )

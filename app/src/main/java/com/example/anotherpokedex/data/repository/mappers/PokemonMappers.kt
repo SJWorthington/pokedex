@@ -8,14 +8,15 @@ import com.example.anotherpokedex.domain.model.Type
 fun PokemonDto.toDomain(): Pokemon {
     val sortedTypes = types.sortedBy { it.slot }.map { it.type.name }
 
-    //todo - normal is not a good default here
+    //Default to normal isn't ideal but hey ho
     val firstType = sortedTypes.getOrNull(0)?.toDomainType() ?: Type.Normal
     val secondType = sortedTypes.getOrNull(1)?.toDomainType()
 
     return Pokemon(
         dexNumber = id,
         name = name.replaceFirstChar { it.uppercase() },
-        imageUrl = sprites.frontDefault ?: "",
+        imageUrl = sprites.other?.officialArtwork?.frontDefault ?: sprites.frontDefault ?: "",
+        shinyImageUrl = sprites.other?.officialArtwork?.frontShiny ?: sprites.frontShiny ?: "",
         types = PokemonTypePairing(
             first = firstType,
             second = secondType

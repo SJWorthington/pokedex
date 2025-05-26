@@ -7,5 +7,6 @@ data class PokemonUiModel(
     val imageUri: String,
     val readableNumber: String,
     val name: String,
-    val types: PokemonTypePairing
+    val types: PokemonTypePairing,
+    val displayShiny: Boolean
 )
