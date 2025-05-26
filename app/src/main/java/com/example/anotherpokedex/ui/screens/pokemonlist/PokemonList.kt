@@ -1,8 +1,11 @@
 package com.example.anotherpokedex.ui.screens.pokemonlist
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -23,6 +26,7 @@ fun PokemonList(
     //val state = viewModel.state.collectAsState()
     val pokemonList = viewModel.pokemonPagingFlow.collectAsLazyPagingItems()
     val interactions = viewModel.interactions
+    val gridState = rememberLazyGridState()
 
     LaunchedEffect(Unit) {
         viewModel.navigationEvents.collect { event ->
@@ -32,37 +36,50 @@ fun PokemonList(
         }
     }
 
-    LazyVerticalGrid(
-        modifier = modifier,
-        columns = GridCells.Fixed(2)
-    ) {
-        items(pokemonList.itemCount) { index ->
-            pokemonList.get(index)?.let { pokemon ->
-                val backgroundBrush = remember(pokemon.types) {
-                    val colors = listOf(
-                        pokemon.types.first.getTypeColor(),
-                        pokemon.types.second?.getTypeColor() ?: pokemon.types.first.getTypeColor()
-                    )
-                    Brush.verticalGradient(colors)
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyVerticalGrid(
+            modifier = Modifier
+                .fillMaxSize()
+                .then(modifier),
+            state = gridState,
+            columns = GridCells.Fixed(2)
+        ) {
+            items(
+                count = pokemonList.itemCount,
+                key = { index ->
+                    //Seems unnecessary since dexNumber should always == index
+                    // But was seeing some jank, so testing this as solution
+                    pokemonList[index]?.id ?: index
                 }
+            ) { index ->
+                pokemonList[index]?.let { pokemon ->
+                    val backgroundBrush = remember(pokemon.types) {
+                        val colors = listOf(
+                            pokemon.types.first.getTypeColor(),
+                            pokemon.types.second?.getTypeColor()
+                                ?: pokemon.types.first.getTypeColor()
+                        )
+                        Brush.verticalGradient(colors)
+                    }
 
-                PokemonGridItem(
-                    pokemon = pokemon,
-                    backgroundBrush = backgroundBrush,
-                    onClick = { interactions.onClickPokemon(pokemon.name) }
+                    PokemonGridItem(
+                        pokemon = pokemon,
+                        backgroundBrush = backgroundBrush,
+                        onClick = { interactions.onClickPokemon(pokemon.name) }
+                    )
+                }
+            }
+
+            item(span = { GridItemSpan(2) }) {
+                PokemonListLoadStateItem(loadState = pokemonList.loadState.refresh)
+            }
+
+            item(span = { GridItemSpan(2) }) {
+                PokemonListLoadStateItem(
+                    loadState = pokemonList.loadState.append,
+                    errorPrefix = "Couldn't load more Pokémon"
                 )
             }
-        }
-
-        item(span = { GridItemSpan(2) }) {
-            PokemonListLoadStateItem(loadState = pokemonList.loadState.refresh)
-        }
-
-        item(span = { GridItemSpan(2) }) {
-            PokemonListLoadStateItem(
-                loadState = pokemonList.loadState.append,
-                errorPrefix = "Couldn't load more Pokémon"
-            )
         }
     }
 }

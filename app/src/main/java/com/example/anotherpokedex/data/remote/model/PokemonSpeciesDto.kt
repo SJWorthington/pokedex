@@ -1,13 +1,18 @@
 package com.example.anotherpokedex.data.remote.model
 
+import kotlinx.serialization.SerialName
+
 data class PokemonSpeciesDto(
-    val flavor_text_entries: List<FlavorTextEntryDto>,
-    val egg_groups: List<NamedApiResource>,
+    @SerialName("flavor_text_entries")
+    val dexEntries: List<DexEntries>,
+    @SerialName("egg_groups")
+    val eggGroups: List<NamedApiResource>,
     val color: NamedApiResource?,
     val habitat: NamedApiResource?
 )
 
-data class FlavorTextEntryDto(
-    val flavor_text: String,
+data class DexEntries(
+    @SerialName("flavor_text")
+    val dexEntry: String,
     val language: NamedApiResource
 )

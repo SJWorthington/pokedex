@@ -1,5 +1,6 @@
 package com.example.anotherpokedex.ui.screens.pokemonlist
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -41,15 +42,20 @@ class PokemonListViewModel @Inject constructor(
         onClickPokemon = { name -> onClickPokemon(name) }
     )
 
-    private fun Pokemon.toPokemonListUiModel() : PokemonUiModel {
-        val useShiny = Random.nextInt(10) == 0
+    private val shinyStatusMap = mutableMapOf<Int, Boolean>()
+
+    private fun Pokemon.toPokemonListUiModel(): PokemonUiModel {
+        val isShiny = shinyStatusMap.getOrPut(dexNumber) {
+            Random.nextInt(10) == 0
+        }
+        Log.d("Plantain", "DexNumber = ${this.dexNumber}")
         return PokemonUiModel(
             this.dexNumber,
-            if (useShiny) this.shinyImageUrl else this.imageUrl,
+            if (isShiny) this.shinyImageUrl else this.imageUrl,
             this.dexNumber.toString(),
             this.name,
             this.types,
-            useShiny
+            isShiny
         )
     }
 

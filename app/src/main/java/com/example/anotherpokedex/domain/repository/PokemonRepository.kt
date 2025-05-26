@@ -5,5 +5,5 @@ import com.example.anotherpokedex.domain.model.Pokemon
 import kotlinx.coroutines.flow.Flow
 
 interface PokemonRepository {
-    fun getPokemonList(): Flow<PagingData<Pokemon>>
+    fun getPagedPokemonList(): Flow<PagingData<Pokemon>>
 }

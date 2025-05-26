@@ -1,7 +1,7 @@
 package com.example.anotherpokedex.core.di
 
-import com.example.anotherpokedex.domain.repository.PokemonRepository
 import com.example.anotherpokedex.data.repository.PokemonRepositoryImpl
+import com.example.anotherpokedex.domain.repository.PokemonRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

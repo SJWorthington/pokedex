@@ -11,6 +11,6 @@ class GetPokemonListUseCase @Inject constructor(
     private val repository: PokemonRepository
 ) {
     operator fun invoke(): Flow<PagingData<Pokemon>> {
-        return repository.getPokemonList()
+        return repository.getPagedPokemonList()
     }
 }

@@ -1,5 +1,7 @@
 package com.example.anotherpokedex.ui.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -20,12 +22,17 @@ fun AppNavGraph(
         startDestination = "pokemon_list"
     ) {
         composable("pokemon_list") {
-            PokemonList(
-                modifier = modifier,
-                navigateToPokemonDetails = { name ->
-                    navController.navigate("pokemon_detail/$name")
-                }
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                PokemonList(
+                    modifier = modifier,
+                    navigateToPokemonDetails = { name ->
+                        navController.navigate("pokemon_detail/$name")
+                    }
+                )
+            }
         }
         composable(
             route = "pokemon_detail/{pokemonName}",
