@@ -7,31 +7,31 @@ import kotlinx.serialization.Serializable
 data class PokemonDto(
     val id: Int,
     val name: String,
-    val types: List<TypeSlot>,
-    val sprites: Sprites
+    val types: List<TypeSlotDto>,
+    val sprites: SpritesDto
 )
 
 @Serializable
-data class TypeSlot(
+data class TypeSlotDto(
     val slot: Int,
     val type: NamedApiResource
 )
 
 @Serializable
-data class Sprites(
+data class SpritesDto(
     @SerialName("front_default") val frontDefault: String?,
     @SerialName("front_shiny") val frontShiny: String?,
-    val other: OtherSprites? = null
+    val other: OtherSpritesDto? = null
 )
 
 @Serializable
-data class OtherSprites(
+data class OtherSpritesDto(
     @SerialName("official-artwork")
-    val officialArtwork: OfficialArtwork? = null
+    val officialArtwork: OfficialArtworkDto? = null
 )
 
 @Serializable
-data class OfficialArtwork(
+data class OfficialArtworkDto(
     @SerialName("front_default")
     val frontDefault: String?,
     @SerialName("front_shiny")
