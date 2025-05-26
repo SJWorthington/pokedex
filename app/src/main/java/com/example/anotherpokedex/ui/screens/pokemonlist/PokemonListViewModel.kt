@@ -1,6 +1,5 @@
 package com.example.anotherpokedex.ui.screens.pokemonlist
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -48,7 +47,6 @@ class PokemonListViewModel @Inject constructor(
         val isShiny = shinyStatusMap.getOrPut(dexNumber) {
             Random.nextInt(10) == 0
         }
-        Log.d("Plantain", "DexNumber = ${this.dexNumber}")
         return PokemonUiModel(
             this.dexNumber,
             if (isShiny) this.shinyImageUrl else this.imageUrl,
