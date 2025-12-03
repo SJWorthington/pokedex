@@ -10,7 +10,7 @@ data class Pokemon(
 
 data class PokemonTypePairing(
     val first: Type,
-    val second: Type?
+    val second: Type? = null
 ) {
     companion object {
         fun fromStrings(types: List<String>): PokemonTypePairing {

@@ -47,7 +47,7 @@ fun PokemonList(
             items(
                 count = pokemonList.itemCount,
                 key = { index ->
-                    // Think this is actually the default, but it fixed a bug I accidentally introduced
+                    // Think this actually uses index byu default, but it fixed a bug I accidentally introduced
                     // by using the dexNumber as the index (Pokemon index from 1),
                     // so letting this live for future reference
                     index
