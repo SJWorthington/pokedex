@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface PokemonRepository {
     fun getPagedPokemonList(): Flow<PagingData<Pokemon>>
+    suspend fun updateIsFavourite(dexNumber: Int, isFavourite: Boolean)
 }

@@ -36,4 +36,9 @@ class PokemonRepositoryImpl @Inject constructor(
             pagingData.map { it.toDomain() }
         }
     }
+
+    // TODO This should probably operate in a way that surfaces errors
+    override suspend fun updateIsFavourite(dexNumber: Int, isFavourite: Boolean) {
+        db.pokemonDao().updateFavourite(dexNumber, isFavourite)
+    }
 }

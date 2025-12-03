@@ -66,7 +66,9 @@ fun PokemonList(
                     PokemonGridItem(
                         pokemon = pokemon,
                         backgroundBrush = backgroundBrush,
-                        onClick = { interactions.onClickPokemon(pokemon.name) }
+                        onClick = { interactions.onClickPokemon(pokemon.name) },
+                        onClickFavourite = { interactions.onClickFavourite(pokemon.id) },
+                        onClickUnfavourite = { interactions.onClickUnfavourite(pokemon.id) }
                     )
                 }
             }

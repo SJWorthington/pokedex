@@ -21,7 +21,8 @@ fun PokemonDto.toDomain(): Pokemon {
         types = PokemonTypePairing(
             first = firstType,
             second = secondType
-        )
+        ),
+        isFavourite = false
     )
 }
 
@@ -30,7 +31,8 @@ fun PokemonEntity.toDomain(): Pokemon = Pokemon(
     name = name,
     imageUrl = imageUrl,
     shinyImageUrl = shinyImageUrl,
-    types = PokemonTypePairing.fromStrings(types)
+    types = PokemonTypePairing.fromStrings(types),
+    isFavourite = isFavourite
 )
 
 fun Pokemon.toEntity(): PokemonEntity = PokemonEntity(

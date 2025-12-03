@@ -22,7 +22,8 @@ object DatabaseModule {
             context,
             PokemonDatabase::class.java,
             "pokemon.db"
-        ).build()
+        ).fallbackToDestructiveMigration(true) // Risky thing to use in a real project
+            .build()
     }
 
     @Provides

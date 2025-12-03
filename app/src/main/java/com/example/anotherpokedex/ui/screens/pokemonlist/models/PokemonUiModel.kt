@@ -8,5 +8,6 @@ data class PokemonUiModel(
     val readableNumber: String,
     val name: String,
     val types: PokemonTypePairing,
-    val displayShiny: Boolean
+    val displayShiny: Boolean,
+    val isFavourite: Boolean
 )

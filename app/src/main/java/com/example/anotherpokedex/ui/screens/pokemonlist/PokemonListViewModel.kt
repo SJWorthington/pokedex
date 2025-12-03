@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.anotherpokedex.domain.model.Pokemon
 import com.example.anotherpokedex.domain.usecases.GetPokemonListUseCase
+import com.example.anotherpokedex.domain.usecases.ToggleIsFavouriteUseCase
 import com.example.anotherpokedex.ui.screens.pokemonlist.models.PokemonUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +22,8 @@ import kotlin.random.Random
 
 @HiltViewModel
 class PokemonListViewModel @Inject constructor(
-    getPokemonListUseCase: GetPokemonListUseCase
+    getPokemonListUseCase: GetPokemonListUseCase,
+    val toggleIsFavouriteUseCase: ToggleIsFavouriteUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -38,7 +40,9 @@ class PokemonListViewModel @Inject constructor(
     val navigationEvents: SharedFlow<NavigationEvent> = _navigationEvents
 
     val interactions = Interactions(
-        onClickPokemon = { name -> onClickPokemon(name) }
+        onClickPokemon = { name -> onClickPokemon(name) },
+        onClickFavourite = { dexNumber -> onClickFavourite(dexNumber) },
+        onClickUnfavourite = { dexNumber -> onClickUnfavourite(dexNumber) }
     )
 
     private val shinyStatusMap = mutableMapOf<Int, Boolean>()
@@ -53,13 +57,26 @@ class PokemonListViewModel @Inject constructor(
             this.dexNumber.toString(),
             this.name,
             this.types,
-            isShiny
+            isShiny,
+            this.isFavourite
         )
     }
 
     fun onClickPokemon(name: String) {
         viewModelScope.launch {
             _navigationEvents.emit(NavigationEvent.ToPokemonDetail(name))
+        }
+    }
+
+    fun onClickFavourite(dexNumber: Int) {
+        viewModelScope.launch {
+            toggleIsFavouriteUseCase.invoke(dexNumber, true)
+        }
+    }
+
+    fun onClickUnfavourite(dexNumber: Int) {
+        viewModelScope.launch {
+            toggleIsFavouriteUseCase.invoke(dexNumber, false)
         }
     }
 
@@ -70,7 +87,9 @@ class PokemonListViewModel @Inject constructor(
     )
 
     data class Interactions(
-        val onClickPokemon: (String) -> Unit
+        val onClickPokemon: (String) -> Unit,
+        val onClickFavourite: (Int) -> Unit,
+        val onClickUnfavourite: (Int) -> Unit
     )
 
     sealed class NavigationEvent {

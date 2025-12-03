@@ -3,9 +3,11 @@ package com.example.anotherpokedex.ui.screens.pokemonlist
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,19 +21,25 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -50,7 +58,9 @@ fun PokemonGridItem(
     modifier: Modifier = Modifier,
     pokemon: PokemonUiModel,
     backgroundBrush: Brush,
-    onClick: (Int) -> Unit
+    onClick: (Int) -> Unit,
+    onClickFavourite: (Int) -> Unit,
+    onClickUnfavourite: (Int) -> Unit
 ) {
     val context = LocalContext.current
     Box(
@@ -90,6 +100,20 @@ fun PokemonGridItem(
             Spacer(modifier = Modifier.height(4.dp))
             PokemonListTypeRow(pokemon)
         }
+
+        PokemonListFavouriteIcon(
+            isFavourite = pokemon.isFavourite,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(4.dp)
+                .size(36.dp)
+                .clickable {
+                    when (pokemon.isFavourite) {
+                        true -> onClickUnfavourite(pokemon.id)
+                        false -> onClickFavourite(pokemon.id)
+                    }
+                }
+        )
     }
 }
 
@@ -191,4 +215,35 @@ fun PokemonListLoadStateItem(
 
         else -> Unit
     }
+}
+
+@Composable
+fun PokemonListFavouriteIcon(
+    isFavourite: Boolean,
+    modifier: Modifier = Modifier
+) {
+    var previous by remember { mutableStateOf(isFavourite) }
+    var animatePop by remember { mutableStateOf(false) }
+
+    LaunchedEffect(isFavourite) {
+        if (!previous && isFavourite) animatePop = true
+        previous = isFavourite
+    }
+
+    val scale by animateFloatAsState(
+        targetValue = if (animatePop) 1.3f else 1f,
+        animationSpec = tween(200),
+        finishedListener = { animatePop = false }
+    )
+
+    Image(
+        painter = painterResource(
+            if (isFavourite) R.drawable.ic_favourite else R.drawable.ic_not_favourite
+        ),
+        modifier = modifier.graphicsLayer {
+            scaleX = scale
+            scaleY = scale
+        },
+        contentDescription = null
+    )
 }

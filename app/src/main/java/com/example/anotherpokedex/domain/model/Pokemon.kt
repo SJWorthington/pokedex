@@ -5,7 +5,8 @@ data class Pokemon(
     val name: String,
     val imageUrl: String,
     val shinyImageUrl: String,
-    val types: PokemonTypePairing
+    val types: PokemonTypePairing,
+    val isFavourite: Boolean
 )
 
 data class PokemonTypePairing(

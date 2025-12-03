@@ -18,4 +18,7 @@ interface PokemonDao {
 
     @Query("DELETE FROM pokemon")
     suspend fun clearAll()
+
+    @Query("UPDATE pokemon SET isFavourite = :isFav WHERE nationalDexNumber = :dexNumber")
+    suspend fun updateFavourite(dexNumber: Int, isFav: Boolean)
 }
