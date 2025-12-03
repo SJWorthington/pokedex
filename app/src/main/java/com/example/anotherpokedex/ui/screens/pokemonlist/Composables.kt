@@ -68,7 +68,7 @@ fun PokemonGridItem(
             .padding(8.dp)
             .shadow(elevation = 4.dp, shape = RoundedCornerShape(16.dp))
             .background(brush = backgroundBrush, shape = RoundedCornerShape(16.dp))
-            .clip(RoundedCornerShape(16.dp)) // ensures overlay & content match shape
+            .clip(RoundedCornerShape(16.dp))
             .clickable { onClick(pokemon.id) }
     ) {
         if (pokemon.displayShiny) {
@@ -92,7 +92,7 @@ fun PokemonGridItem(
                 modifier = Modifier
                     .fillMaxSize()
                     .aspectRatio(1f)
-                    .clip(RoundedCornerShape(12.dp)) // slightly smaller for inner image
+                    .clip(RoundedCornerShape(12.dp))
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = pokemon.readableNumber, style = MaterialTheme.typography.bodySmall)
