@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,9 +33,14 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import com.example.anotherpokedex.R
 import com.example.anotherpokedex.domain.model.Type
 import com.example.anotherpokedex.ui.screens.pokemonlist.models.PokemonUiModel
 import com.example.anotherpokedex.ui.utils.getTypeColor
@@ -46,6 +52,7 @@ fun PokemonGridItem(
     backgroundBrush: Brush,
     onClick: (Int) -> Unit
 ) {
+    val context = LocalContext.current
     Box(
         modifier = modifier
             .padding(8.dp)
@@ -65,11 +72,15 @@ fun PokemonGridItem(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
-                model = pokemon.imageUri,
+                model = ImageRequest.Builder(context)
+                    .data(pokemon.imageUri)
+                    .crossfade(true)
+                    .build(),
                 contentDescription = null,
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.FillWidth,
+                placeholder = painterResource(R.drawable.who_is_that_pokemon),
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .aspectRatio(1f)
                     .clip(RoundedCornerShape(12.dp)) // slightly smaller for inner image
             )
