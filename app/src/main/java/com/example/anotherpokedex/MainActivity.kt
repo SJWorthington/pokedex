@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.anotherpokedex.ui.navigation.AppNavGraph
-import com.example.anotherpokedex.ui.screens.pokemonlist.PokemonList
+import com.example.anotherpokedex.ui.screens.pokemonlist.PokemonListRoute
 import com.example.anotherpokedex.ui.theme.AnotherPokedexTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
 fun GreetingPreview() {
     AnotherPokedexTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            PokemonList(
+            PokemonListRoute(
                 modifier = Modifier.padding(paddingValues = innerPadding),
                 navigateToPokemonDetails = {}
             )

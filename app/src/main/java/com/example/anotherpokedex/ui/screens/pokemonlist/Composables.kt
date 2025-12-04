@@ -22,7 +22,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -43,6 +47,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import coil3.compose.AsyncImage
@@ -51,10 +56,12 @@ import coil3.request.crossfade
 import com.example.anotherpokedex.R
 import com.example.anotherpokedex.domain.model.Type
 import com.example.anotherpokedex.ui.screens.pokemonlist.models.PokemonUiModel
+import com.example.anotherpokedex.ui.screens.pokemonlist.models.SampleData
+import com.example.anotherpokedex.ui.theme.AnotherPokedexTheme
 import com.example.anotherpokedex.ui.utils.getTypeColor
 
 @Composable
-fun PokemonGridItem(
+fun PokemonGridCard(
     modifier: Modifier = Modifier,
     pokemon: PokemonUiModel,
     backgroundBrush: Brush,
@@ -246,4 +253,46 @@ fun PokemonListFavouriteIcon(
         },
         contentDescription = null
     )
+}
+
+/* Previews */
+@Preview(showBackground = true)
+@Composable
+private fun PokemonCardInGridPreview() {
+    val pokemon = listOf(SampleData.shinyBulbasaur, SampleData.pikachu)
+    AnotherPokedexTheme {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier.height(300.dp)
+        ) {
+            itemsIndexed(pokemon) { _, item ->
+                val brush = Brush.verticalGradient(
+                    listOf(
+                        item.types.first.getTypeColor(),
+                        item.types.second?.getTypeColor() ?: item.types.first.getTypeColor()
+                    )
+                )
+
+                PokemonGridCard(
+                    pokemon = item,
+                    backgroundBrush = brush,
+                    onClick = {},
+                    onClickFavourite = {},
+                    onClickUnfavourite = {},
+                )
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TypePillPreview() {
+    AnotherPokedexTheme {
+        Row {
+            PokemonListTypePill(modifier = Modifier, type = Type.Fire)
+            Spacer(Modifier.width(8.dp))
+            PokemonListTypePill(modifier = Modifier, type = Type.Grass)
+        }
+    }
 }

@@ -11,30 +11,50 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.anotherpokedex.ui.preview.previewLazyPagingItems
 import com.example.anotherpokedex.ui.screens.pokemonlist.PokemonListViewModel.NavigationEvent.ToPokemonDetail
+import com.example.anotherpokedex.ui.screens.pokemonlist.models.PokemonUiModel
+import com.example.anotherpokedex.ui.screens.pokemonlist.models.SampleData
 import com.example.anotherpokedex.ui.utils.getTypeColor
 
 @Composable
-fun PokemonList(
+fun PokemonListRoute(
     modifier: Modifier,
     navigateToPokemonDetails: (String) -> Unit,
     viewModel: PokemonListViewModel = hiltViewModel()
 ) {
-    //Todo - reinstate if we keep anything in state
-    //val state = viewModel.state.collectAsState()
     val pokemonList = viewModel.pokemonPagingFlow.collectAsLazyPagingItems()
     val interactions = viewModel.interactions
-    val gridState = rememberLazyGridState()
+    val navigationEvents = viewModel.navigationEvents
 
     LaunchedEffect(Unit) {
-        viewModel.navigationEvents.collect { event ->
+        navigationEvents.collect { event ->
             when {
                 event is ToPokemonDetail -> navigateToPokemonDetails(event.name)
             }
         }
     }
+
+    PokemonListScreen(
+        modifier = modifier,
+        pokemonList = pokemonList,
+        interactions = interactions,
+    )
+}
+
+@Composable
+fun PokemonListScreen(
+    modifier: Modifier,
+    interactions: PokemonListViewModel.Interactions,
+    pokemonList: LazyPagingItems<PokemonUiModel>
+) {
+    //Todo - reinstate if we keep anything in state
+    //val state = viewModel.state.collectAsState()
+    val gridState = rememberLazyGridState()
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(
@@ -47,7 +67,7 @@ fun PokemonList(
             items(
                 count = pokemonList.itemCount,
                 key = { index ->
-                    // Think this actually uses index byu default, but it fixed a bug I accidentally introduced
+                    // Think this actually uses index by default, but it fixed a bug I accidentally introduced
                     // by using the dexNumber as the index (Pokemon index from 1),
                     // so letting this live for future reference
                     index
@@ -63,7 +83,7 @@ fun PokemonList(
                         Brush.verticalGradient(colors)
                     }
 
-                    PokemonGridItem(
+                    PokemonGridCard(
                         pokemon = pokemon,
                         backgroundBrush = backgroundBrush,
                         onClick = { interactions.onClickPokemon(pokemon.name) },
@@ -86,3 +106,27 @@ fun PokemonList(
         }
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewPokemonListScreen() {
+    val listItems = previewLazyPagingItems(
+        listOf(
+            SampleData.shinyBulbasaur,
+            SampleData.pikachu,
+            SampleData.shinyBulbasaur,
+            SampleData.pikachu
+        )
+    )
+
+    val interactions = PokemonListViewModel.Interactions(
+        onClickPokemon = {}, onClickFavourite = {}, onClickUnfavourite = {}
+    )
+
+    PokemonListScreen(
+        modifier = Modifier,
+        interactions = interactions,
+        pokemonList = listItems
+    )
+}
+

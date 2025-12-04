@@ -10,7 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.anotherpokedex.ui.screens.pokemondetail.PokemonDetail
-import com.example.anotherpokedex.ui.screens.pokemonlist.PokemonList
+import com.example.anotherpokedex.ui.screens.pokemonlist.PokemonListRoute
 
 @Composable
 fun AppNavGraph(
@@ -26,7 +26,7 @@ fun AppNavGraph(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                PokemonList(
+                PokemonListRoute(
                     modifier = modifier,
                     navigateToPokemonDetails = { name ->
                         navController.navigate("pokemon_detail/$name")
