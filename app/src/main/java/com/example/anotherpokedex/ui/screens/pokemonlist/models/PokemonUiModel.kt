@@ -11,3 +11,9 @@ data class PokemonUiModel(
     val displayShiny: Boolean,
     val isFavourite: Boolean
 )
+
+data class FiltersUiModel(
+    val displayText: String,
+    val isEnabled: Boolean,
+    val subFilterOptions: List<String>?
+)

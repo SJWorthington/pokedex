@@ -35,4 +35,8 @@ enum class Type {
     }
 }
 
+enum class Generation {
+    RedBlue, GoldSilver, RubySapphire, DiamondPearl, BlackWhite, XY, SunMoon, SwordShield, ScarletViolet
+}
+
 

@@ -1,4 +1,4 @@
-package com.example.anotherpokedex.ui.screens.pokemonlist
+package com.example.anotherpokedex.ui.screens.pokemonlist.components
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -28,7 +28,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,7 +48,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.paging.LoadState
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
@@ -193,35 +191,6 @@ fun PokemonGlowOverlay(modifier: Modifier = Modifier) {
             shape = RoundedCornerShape(16.dp)
         )
     )
-}
-
-@Composable
-fun PokemonListLoadStateItem(
-    loadState: LoadState,
-    errorPrefix: String = "Something went wrong"
-) {
-    when (loadState) {
-        is LoadState.Loading -> {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        }
-
-        is LoadState.Error -> {
-            Text(
-                text = "$errorPrefix: ${loadState.error.localizedMessage}",
-                color = Color.Red,
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-
-        else -> Unit
-    }
 }
 
 @Composable

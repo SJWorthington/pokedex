@@ -1,5 +1,6 @@
 package com.example.anotherpokedex.ui.screens.pokemonlist.models
 
+import com.example.anotherpokedex.domain.model.Generation
 import com.example.anotherpokedex.domain.model.PokemonTypePairing
 import com.example.anotherpokedex.domain.model.Type
 
@@ -29,5 +30,23 @@ object SampleData {
         ),
         displayShiny = true,
         isFavourite = false
+    )
+
+    val sampleFilters = listOf(
+        FiltersUiModel (
+            "Favourites",
+            false,
+            null
+        ),
+        FiltersUiModel (
+            "Fire, Electric",
+            true,
+            listOf(Type.entries.toTypedArray().toString())
+        ),
+        FiltersUiModel (
+            "First Appearance",
+            false,
+            listOf(Generation.entries.toTypedArray().toString())
+        )
     )
 }

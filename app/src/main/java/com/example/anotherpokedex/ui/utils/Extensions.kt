@@ -1,28 +1,32 @@
 package com.example.anotherpokedex.ui.utils
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.example.anotherpokedex.domain.model.Type
-import com.example.anotherpokedex.ui.theme.TypeColor
+import com.example.anotherpokedex.ui.theme.typeColors
 
+@Composable
 fun Type.getTypeColor(): Color {
+    val colours = MaterialTheme.typeColors
     return when (this) {
-        Type.Fire -> TypeColor.Fire
-        Type.Water -> TypeColor.Water
-        Type.Grass -> TypeColor.Grass
-        Type.Electric -> TypeColor.Electric
-        Type.Normal -> TypeColor.Normal
-        Type.Ice -> TypeColor.Ice
-        Type.Fighting -> TypeColor.Fighting
-        Type.Poison -> TypeColor.Poison
-        Type.Ground -> TypeColor.Ground
-        Type.Flying -> TypeColor.Flying
-        Type.Psychic -> TypeColor.Psychic
-        Type.Bug -> TypeColor.Bug
-        Type.Rock -> TypeColor.Rock
-        Type.Ghost -> TypeColor.Ghost
-        Type.Dragon -> TypeColor.Dragon
-        Type.Dark -> TypeColor.Dark
-        Type.Steel -> TypeColor.Steel
-        Type.Fairy -> TypeColor.Fairy
+        Type.Fire -> colours.fire
+        Type.Water -> colours.water
+        Type.Grass -> colours.grass
+        Type.Electric -> colours.electric
+        Type.Normal -> colours.normal
+        Type.Ice -> colours.ice
+        Type.Fighting -> colours.fighting
+        Type.Poison -> colours.poison
+        Type.Ground -> colours.ground
+        Type.Flying -> colours.flying
+        Type.Psychic -> colours.psychic
+        Type.Bug -> colours.bug
+        Type.Rock -> colours.rock
+        Type.Ghost -> colours.ghost
+        Type.Dragon -> colours.dragon
+        Type.Dark -> colours.dark
+        Type.Steel -> colours.steel
+        Type.Fairy -> colours.fairy
     }
 }
