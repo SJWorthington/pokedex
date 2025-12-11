@@ -6,6 +6,7 @@ plugins {
     kotlin("kapt")
     alias(libs.plugins.ksp)
     kotlin("plugin.serialization") version libs.versions.kotlin.get()
+    alias(libs.plugins.protobuf)
 }
 
 hilt {
@@ -94,6 +95,10 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(libs.room.paging)
 
+    //Datastore
+    implementation(libs.datastore.core)
+    implementation(libs.protobuf.javalite)
+
     //Testing libraries
     testImplementation(libs.junit)
     testImplementation(libs.mockito.kotlin)
@@ -103,4 +108,24 @@ dependencies {
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     testImplementation(kotlin("test"))
+}
+
+protobuf {
+    protoc {
+        //artifact = "com.google.protobuf:protoc:${libs.versions.protobuf}"
+        // ^ Breaks build
+        //artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"
+        // ^ Also breaks build
+        artifact = "com.google.protobuf:protoc:4.32.1"
+        // ^ Works.Guess we'll hardcode this version then
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }
