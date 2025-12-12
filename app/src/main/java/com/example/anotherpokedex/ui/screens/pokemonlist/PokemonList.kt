@@ -67,7 +67,14 @@ fun PokemonListScreen(
     val gridState = rememberLazyGridState()
 
     Column(modifier = modifier.then(Modifier.fillMaxSize())) {
-        FiltersRow(filters)
+        FiltersRow(
+            filters,
+            onClickFavouritesFilter = { interactions.onClickFilterForFavourites },
+            onClickTypesFilter = { //TODO - show dialogue
+            },
+            onClickGensFilter = { //TODO - show dialogue
+            }
+        )
         Spacer(modifier = Modifier.height(8.dp))
 
         FadingEdgeBox {
@@ -133,13 +140,9 @@ fun PreviewPokemonListScreen() {
         )
     )
 
-    val interactions = PokemonListViewModel.Interactions(
-        onClickPokemon = {}, onClickFavourite = {}, onClickUnfavourite = {}
-    )
-
     PokemonListScreen(
         modifier = Modifier,
-        interactions = interactions,
+        interactions = PokemonListViewModel.Interactions.dummy,
         pokemonList = listItems,
         filters = SampleData.sampleFilters
     )

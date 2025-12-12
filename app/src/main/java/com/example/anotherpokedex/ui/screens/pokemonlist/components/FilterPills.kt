@@ -2,6 +2,7 @@ package com.example.anotherpokedex.ui.screens.pokemonlist.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -25,8 +26,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.anotherpokedex.R
+import com.example.anotherpokedex.ui.screens.pokemonlist.models.FavouriteFilter
 import com.example.anotherpokedex.ui.screens.pokemonlist.models.FiltersUiModel
+import com.example.anotherpokedex.ui.screens.pokemonlist.models.GenerationFilter
 import com.example.anotherpokedex.ui.screens.pokemonlist.models.SampleData
+import com.example.anotherpokedex.ui.screens.pokemonlist.models.TypeFilter
 import com.example.anotherpokedex.ui.theme.AnotherPokedexTheme
 import com.example.anotherpokedex.ui.theme.pokeColors
 
@@ -35,7 +39,8 @@ fun FilterPill(
     modifier: Modifier = Modifier,
     text: String,
     isDropdown: Boolean,
-    isEnabled: Boolean
+    isEnabled: Boolean,
+    onClick: () -> Unit
 ) {
     val colours = MaterialTheme.pokeColors
 
@@ -45,6 +50,7 @@ fun FilterPill(
 
     Row(
         modifier = modifier
+            .clickable { onClick.invoke() }
             .clip(RoundedCornerShape(50))
             .background(bgColor)
             .border(
@@ -84,17 +90,27 @@ fun FilterPill(
 @Composable
 fun FiltersRow(
     filters: List<FiltersUiModel>,
+    onClickFavouritesFilter: () -> Unit,
+    onClickTypesFilter: () -> Unit,
+    onClickGensFilter: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier.horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        filters.forEach {
+        filters.forEach { filter ->
             FilterPill(
-                text = it.displayText,
-                isDropdown = it.subFilterOptions != null,
-                isEnabled = it.isEnabled,
+                text = filter.displayText,
+                isDropdown = filter.subFilterOptions != null,
+                isEnabled = filter.filter.isActive,
+                onClick = {
+                    when (filter.filter) {
+                        is FavouriteFilter -> onClickFavouritesFilter.invoke()
+                        is TypeFilter -> onClickTypesFilter.invoke()
+                        is GenerationFilter -> onClickGensFilter.invoke()
+                    }
+                }
             )
         }
     }
@@ -105,7 +121,10 @@ fun FiltersRow(
 private fun FilterRowPreview() {
     AnotherPokedexTheme {
         FiltersRow(
-            filters = SampleData.sampleFilters
+            filters = SampleData.sampleFilters,
+            onClickFavouritesFilter = {},
+            onClickTypesFilter = {},
+            onClickGensFilter = {}
         )
     }
 }
@@ -117,7 +136,8 @@ private fun FilterPillPreview() {
         FilterPill(
             text = "Favourites",
             isDropdown = true,
-            isEnabled = true
+            isEnabled = true,
+            onClick = {}
         )
     }
 }

@@ -8,7 +8,8 @@ data class PokemonSpeciesDto(
     @SerialName("egg_groups")
     val eggGroups: List<NamedApiResource>,
     val color: NamedApiResource?,
-    val habitat: NamedApiResource?
+    val habitat: NamedApiResource?,
+    val initialGen: NamedApiResource?
 )
 
 data class DexEntries(

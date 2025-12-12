@@ -7,8 +7,11 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.anotherpokedex.data.local.db.PokemonDatabase
 import com.example.anotherpokedex.data.local.entities.PokemonEntity
-import com.example.anotherpokedex.data.repository.mappers.toEntity
+import com.example.anotherpokedex.data.repository.mappers.createPokemonEntityFromDtos
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
 @OptIn(ExperimentalPagingApi::class)
 class PokemonRemoteMediator @Inject constructor(
@@ -41,7 +44,21 @@ class PokemonRemoteMediator @Inject constructor(
 
             val detailedPokemon = response.results.mapNotNull { resource ->
                 try {
-                    apiService.getPokemonDetails(resource.name).toEntity()
+                    coroutineScope {
+                        val pokemonDeferred = async {
+                            apiService.getPokemonDetails(resource.name)
+                        }
+                        val speciesDeferred = async {
+                            apiService.getPokemonSpeciesDetails(resource.name)
+                        }
+
+                        createPokemonEntityFromDtos(
+                            pokemonDto = pokemonDeferred.await(),
+                            speciesDto = speciesDeferred.await()
+                        )
+                    }
+                } catch (e: CancellationException) {
+                    throw e
                 } catch (e: Exception) {
                     null
                 }
