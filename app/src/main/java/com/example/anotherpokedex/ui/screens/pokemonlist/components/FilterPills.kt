@@ -81,6 +81,7 @@ fun FilterPill(
     }
 }
 
+//TODO - clickability
 @Composable
 fun FiltersRow(
     filters: List<FiltersUiModel>,
